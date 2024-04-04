@@ -1,0 +1,1 @@
+ D:\\Code\\MobileCode\\instagram_clone\\.dart_tool\\flutter_build\\6d434f41b1d8ee95c80ee74f4a7a3218\\native_assets.yaml: 
