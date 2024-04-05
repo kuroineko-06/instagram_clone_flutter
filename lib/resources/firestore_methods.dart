@@ -4,7 +4,6 @@ import 'package:flutter/foundation.dart';
 import 'package:instagram_clone/models/message.dart';
 import 'package:instagram_clone/models/post.dart';
 import 'package:instagram_clone/resources/storage_method.dart';
-import 'package:instagram_clone/utils/utils.dart';
 import 'package:uuid/uuid.dart';
 
 class FireStoreMethods {
