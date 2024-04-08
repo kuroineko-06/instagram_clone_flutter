@@ -303,36 +303,36 @@ class _ProfilePageState extends State<ProfilePage> {
           }
 
           return Container(
-            child: InkWell(
-              onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => DetailPage(
-                          uid: userData['uid'],
-                          name: userData['name'],
-                        )));
-              },
-              child: GridView.builder(
-                shrinkWrap: true,
-                itemCount: (snapshot.data! as dynamic).docs.length,
-                physics: AlwaysScrollableScrollPhysics(),
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 3,
-                  crossAxisSpacing: 5,
-                  mainAxisSpacing: 1.5,
-                  childAspectRatio: 1,
-                ),
-                itemBuilder: (context, index) {
-                  DocumentSnapshot snap =
-                      (snapshot.data! as dynamic).docs[index];
+            child: GridView.builder(
+              shrinkWrap: true,
+              itemCount: (snapshot.data! as dynamic).docs.length,
+              physics: AlwaysScrollableScrollPhysics(),
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 3,
+                crossAxisSpacing: 5,
+                mainAxisSpacing: 1.5,
+                childAspectRatio: 1,
+              ),
+              itemBuilder: (context, index) {
+                DocumentSnapshot snap = (snapshot.data! as dynamic).docs[index];
 
-                  return SizedBox(
+                return SizedBox(
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => DetailPage(
+                                uid: userData['uid'],
+                                name: userData['name'],
+                                postId: snapshot.data!.docs[index]['postId'],
+                              )));
+                    },
                     child: Image(
                       image: NetworkImage(snap['postUrl']),
                       fit: BoxFit.cover,
                     ),
-                  );
-                },
-              ),
+                  ),
+                );
+              },
             ),
           );
         },

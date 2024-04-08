@@ -1,7 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:instagram_clone/featured/screen/detail_posts.dart';
 import 'package:instagram_clone/featured/screen/profile_page.dart';
+import 'package:instagram_clone/featured/widgets/post_card.dart';
 import 'package:instagram_clone/utils/colors.dart';
 
 class SearchPage extends StatefulWidget {
@@ -98,11 +101,11 @@ class _SearchPageState extends State<SearchPage> {
             )
           : Container(
               color: mobileBackgroundColor,
-              child: FutureBuilder(
-                future: FirebaseFirestore.instance
+              child: StreamBuilder(
+                stream: FirebaseFirestore.instance
                     .collection('posts')
                     .orderBy('datePublished')
-                    .get(),
+                    .snapshots(),
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) {
                     return SizedBox.shrink();
@@ -111,11 +114,19 @@ class _SearchPageState extends State<SearchPage> {
                   return MasonryGridView.count(
                     crossAxisCount: 3,
                     itemCount: (snapshot.data! as dynamic).docs.length,
-                    itemBuilder: (context, index) => Image.network(
-                      (snapshot.data! as dynamic)
-                          .docs[index]['postUrl']
-                          .toString(),
-                      fit: BoxFit.cover,
+                    itemBuilder: (context, index) => GestureDetector(
+                      onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => DetailPage(
+                                name: snapshot.data!.docs[index]['name'],
+                                uid: snapshot.data!.docs[index]['uid'],
+                                postId: snapshot.data!.docs[index]['postId'],
+                              ))),
+                      child: Image.network(
+                        (snapshot.data! as dynamic)
+                            .docs[index]['postUrl']
+                            .toString(),
+                        fit: BoxFit.cover,
+                      ),
                     ),
                     mainAxisSpacing: 10.0,
                     crossAxisSpacing: 10.0,

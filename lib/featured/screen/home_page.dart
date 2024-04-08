@@ -1,19 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_nfc_kit/flutter_nfc_kit.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:get/get.dart';
 import 'package:instagram_clone/featured/screen/group_chats.dart';
 import 'package:instagram_clone/featured/screen/mrz_nfc.dart';
 import 'package:instagram_clone/featured/screen/page_test_2.dart';
-import 'package:instagram_clone/featured/screen/profile_page.dart';
 import 'package:instagram_clone/featured/widgets/post_card.dart';
 import 'package:instagram_clone/featured/widgets/profile_card.dart';
 import 'package:instagram_clone/featured/widgets/reels_items.dart';
 import 'package:instagram_clone/utils/colors.dart';
-import 'package:instagram_clone/utils/utils.dart';
-import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
   final String uid;
@@ -169,33 +166,37 @@ class _HomePageState extends State<HomePage> {
                                                         .docs[index]['uid']),
                                               )
                                             : Container(height: 0))),
-                            Container(
-                                height: 120,
-                                constraints: BoxConstraints(maxWidth: 311),
-                                child: ListView.builder(
-                                    shrinkWrap: true,
-                                    scrollDirection: Axis.horizontal,
-                                    physics: AlwaysScrollableScrollPhysics(),
-                                    itemCount:
-                                        (snapshot.data! as dynamic).docs.length,
-                                    itemBuilder: (context, index) =>
-                                        FirebaseAuth.instance.currentUser!
-                                                    .uid !=
-                                                (snapshot.data! as dynamic)
-                                                    .docs[index]['uid']
-                                            ? Container(
-                                                width: 100,
-                                                height: 110,
-                                                child: ReelsItems2(
-                                                    photoURL: (snapshot.data!
-                                                            as dynamic)
-                                                        .docs[index]['photoURL']
-                                                        .toString(),
-                                                    uid: (snapshot.data!
-                                                            as dynamic)
-                                                        .docs[index]['uid']),
-                                              )
-                                            : Container(height: 0)))
+                            Flexible(
+                              child: Container(
+                                  height: 120,
+                                  width: MediaQuery.of(context).size.width,
+                                  child: ListView.builder(
+                                      shrinkWrap: true,
+                                      scrollDirection: Axis.horizontal,
+                                      physics: AlwaysScrollableScrollPhysics(),
+                                      itemCount: (snapshot.data! as dynamic)
+                                          .docs
+                                          .length,
+                                      itemBuilder: (context, index) =>
+                                          FirebaseAuth.instance.currentUser!
+                                                      .uid !=
+                                                  (snapshot.data! as dynamic)
+                                                      .docs[index]['uid']
+                                              ? Container(
+                                                  width: 100,
+                                                  height: 110,
+                                                  child: ReelsItems2(
+                                                      photoURL: (snapshot.data!
+                                                              as dynamic)
+                                                          .docs[index]
+                                                              ['photoURL']
+                                                          .toString(),
+                                                      uid: (snapshot.data!
+                                                              as dynamic)
+                                                          .docs[index]['uid']),
+                                                )
+                                              : Container(height: 0))),
+                            )
                           ],
                         );
                       },

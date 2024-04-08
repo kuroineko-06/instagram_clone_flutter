@@ -1,4 +1,12 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:instagram_clone/featured/screen/add_page.dart';
+import 'package:instagram_clone/featured/screen/home_page.dart';
+import 'package:instagram_clone/featured/screen/notification_page.dart';
+import 'package:instagram_clone/featured/screen/profile_page.dart';
+import 'package:instagram_clone/featured/screen/search_page.dart';
+import 'package:instagram_clone/utils/colors.dart';
 
 class WebScreenLayout extends StatefulWidget {
   const WebScreenLayout({super.key});
@@ -8,10 +16,109 @@ class WebScreenLayout extends StatefulWidget {
 }
 
 class _WebScreenLayoutState extends State<WebScreenLayout> {
+  int _selectedIndex = 0;
+  final List<Widget> _pages = [
+    Center(
+      child: Container(
+          width: 600,
+          child: HomePage(uid: FirebaseAuth.instance.currentUser!.uid)),
+    ),
+    SearchPage(),
+    AddPage(),
+    NotificationPage(),
+    ProfilePage(
+      uid: FirebaseAuth.instance.currentUser!.uid,
+    ),
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(child: Text("web screen")),
+      body: _pages[_selectedIndex],
+      bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
+        backgroundColor: mobileBackgroundColor,
+        currentIndex: _selectedIndex,
+        onTap: _onItemTapped,
+        items: [
+          BottomNavigationBarItem(
+              icon: Container(
+                child: SvgPicture.asset(
+                  "assets/images/home.svg",
+                  width: 24,
+                  height: 24,
+                  color: Colors.grey.shade600,
+                ),
+              ),
+              activeIcon: SvgPicture.asset(
+                "assets/images/home.svg",
+                color: Colors.blue,
+              ),
+              label: ""),
+          BottomNavigationBarItem(
+              icon: Container(
+                child: SvgPicture.asset(
+                  "assets/images/search.svg",
+                  width: 24,
+                  height: 24,
+                  color: Colors.grey.shade600,
+                ),
+              ),
+              activeIcon: SvgPicture.asset(
+                "assets/images/search.svg",
+                color: Colors.blue,
+              ),
+              label: ""),
+          BottomNavigationBarItem(
+              icon: Container(
+                  child: SvgPicture.asset(
+                "assets/images/add.svg",
+                width: 24,
+                height: 24,
+                color: Colors.grey.shade600,
+              )),
+              activeIcon: SvgPicture.asset(
+                "assets/images/add.svg",
+                color: Colors.blue,
+              ),
+              label: ""),
+          BottomNavigationBarItem(
+              icon: Container(
+                  child: SvgPicture.asset(
+                "assets/images/heart.svg",
+                width: 24,
+                height: 24,
+                color: Colors.grey.shade600,
+              )),
+              activeIcon: SvgPicture.asset(
+                "assets/images/heart.svg",
+                color: Colors.blue,
+              ),
+              label: ""),
+          BottomNavigationBarItem(
+            icon: Container(
+                child: SvgPicture.asset(
+              "assets/images/account.svg",
+              width: 26,
+              height: 26,
+              color: Colors.grey.shade600,
+            )),
+            activeIcon: SvgPicture.asset(
+              "assets/images/account.svg",
+              width: 26,
+              height: 26,
+              color: Colors.blue,
+            ),
+            label: "",
+          ),
+        ],
+      ),
     );
+  }
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
   }
 }
