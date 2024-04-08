@@ -1,10 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:instagram_clone/featured/screen/detail_posts.dart';
 import 'package:instagram_clone/featured/screen/profile_page.dart';
-import 'package:instagram_clone/featured/widgets/post_card.dart';
 import 'package:instagram_clone/utils/colors.dart';
 
 class SearchPage extends StatefulWidget {
