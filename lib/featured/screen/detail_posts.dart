@@ -16,7 +16,6 @@ class DetailPage extends StatefulWidget {
 
 class _DetailPageState extends State<DetailPage> {
   late ScrollController _scrollController;
-  var data = {};
 
   @override
   void initState() {
@@ -56,7 +55,7 @@ class _DetailPageState extends State<DetailPage> {
             );
           }
 
-          WidgetsBinding.instance!.addPostFrameCallback((_) {
+          WidgetsBinding.instance.addPostFrameCallback((_) {
             _scrollToPost(widget.postId);
           });
 
@@ -89,7 +88,7 @@ class _DetailPageState extends State<DetailPage> {
 
       _scrollController.animateTo(
         index * 720, // Adjust the scroll position based on your item height
-        duration: Duration(seconds: 3),
+        duration: Duration(milliseconds: 2),
         curve: Curves.easeIn,
       );
       print({querySnapshot});
